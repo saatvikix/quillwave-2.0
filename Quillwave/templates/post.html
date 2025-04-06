@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>{{ post.title }}</title>
+{% endblock %}
+
+{% block content %}
+<main class="post-container">
+    <div class="post-meta">
+        <h1>{{ post.title }}</h1>
+        <p>By <strong>{{ post.author }}</strong> on 
+            {% if post.timestamp|stringformat:"s" == post.timestamp %}
+                {{ post.timestamp }}  {# Already a string, curated post #}
+            {% else %}
+                {{ post.timestamp|date:"F d, Y, h:i A" }}  {# Django's date filter #}
+            {% endif %}
+        </p>
+    </div>
+
+    {% if post_image %}
+    <div class="post-image">
+        <img src="data:image/jpeg;base64,{{ post_image }}" alt="Post Image">
+    </div>
+    {% endif %}
+
+    <div class="post-content">
+        <p>{{ post.content }}</p>
+    </div>
+
+    <div class="post-actions">
+        <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
+    </div>
+</main>
+{% endblock %}

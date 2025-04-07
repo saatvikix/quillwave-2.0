@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>{{ post.title }}</title>
+{% endblock %}
+
+{% block content %}
+<main class="post-container">
+    <div class="post-meta">
+        <h1>{{ post.title }}</h1>
+        <p>
+            By <strong>{{ post.author }}</strong> on 
+            {{ post.created_at|date:"F d, Y, h:i A" }}
+        </p>
+    </div>
+
+    {% if post.image %}
+    <div class="post-image">
+        <img src="{{ post.image.url }}" alt="Post Image" />
+    </div>
+    {% endif %}
+
+    <div class="post-content">
+        <p>{{ post.body|linebreaks }}</p>
+    </div>
+
+    <div class="post-actions">
+        <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
+    </div>
+</main>
+{% endblock %}

@@ -12,8 +12,13 @@ class Post(models.Model):
     is_draft = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return self.title
+
+    def is_liked_by(self, user):
+        return self.likes.filter(user=user).exists()
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
@@ -22,8 +27,14 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, related_name='likes', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('post', 'user')  # prevents double likes
+
+    def __str__(self):
+        return f"{self.user} likes {self.post}"
 
 class Bookmark(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='bookmarks')

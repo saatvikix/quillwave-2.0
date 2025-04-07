@@ -74,15 +74,18 @@ def profile(request):
             form.save()
     else:
         form = ProfileForm(instance=profile)
-    
+
     user_posts = request.user.post_set.all()
-    
+    post_count = user_posts.count()
+
     return render(request, 'profile.html', {
         'form': form,
         'posts': user_posts,
+        'post_count': post_count,  # ✅ This was missing
         'profile_pic': profile.profile_pic.url if profile.profile_pic else None,
         'location': profile.location,
     })
+
 
 
 def forgot_password(request):

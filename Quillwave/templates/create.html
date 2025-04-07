@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+
 {% load static %}
 
 {% block title %}
@@ -18,24 +18,31 @@
     </a> 
     <h2>Create Post</h2>
 
-    <section class="form">
-        <form action="{% url 'add_post' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                <input type="text" name="title" class="inputs" id="titleInput" placeholder="Give it a heading" required>
-            </div>
-            <div>
-                <textarea name="content" class="inputs" id="blog" placeholder="Write your blog..." required></textarea>
-            </div>
-            <div>
-                <label for="fileInput" class="custom-file-upload">
-                    <span id="fileLabel">Choose an image</span>
-                </label>
-                <input type="file" id="fileInput" name="image" accept="image/*">
-            </div>
-            <input type="submit" value="Post">
-        </form>
-    </section>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    
+        {{ form.non_field_errors }}
+    
+        <div>
+            {{ form.title.errors }}
+            {{ form.title }}
+        </div>
+    
+        <div>
+            {{ form.body.errors }}
+            {{ form.body }}
+        </div>
+    
+        <div>
+            <label for="fileInput" class="custom-file-upload">
+                <span id="fileLabel">Choose an image</span>
+            </label>
+            {{ form.image }}
+        </div>
+    
+        <input type="submit" value="{% if editing %}Update{% else %}Post{% endif %}">
+    </form>
+    
 </div>
 
 <script>

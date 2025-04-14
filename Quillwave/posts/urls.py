@@ -10,7 +10,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('like/<int:post_id>/', views.like_post, name='like_post'),
     path('bookmark/<int:post_id>/', views.bookmark_post, name='bookmark_post'),
-    path('comment/<int:post_id>/', views.add_comment, name='add_comment'),
+    path('add_comment/<int:post_id>/', views.add_comment, name='add_comment'),
 
      # ✅ New routes for home.html
     path('about/', views.about, name='about'),

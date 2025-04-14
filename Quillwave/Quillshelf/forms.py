@@ -15,7 +15,7 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['title', 'author', 'genre', 'description', 'cover', 'price']
+        fields = ['title', 'genre', 'description', 'cover', 'price']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'inputs',

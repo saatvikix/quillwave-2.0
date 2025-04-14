@@ -93,7 +93,7 @@ def like_post(request, post_id):
             'likes': like_count
         })
 
-    return JsonResponse({'error': 'Invalid request'},status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @login_required
 def bookmark_post(request, post_id):
@@ -106,11 +106,20 @@ def bookmark_post(request, post_id):
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        text = request.POST.get('comment')
+    
+    if request.method == "POST":
+        text = request.POST.get('content')  # Get the comment content
         if text:
-            Comment.objects.create(post=post, author=request.user, text=text)
-    return redirect('home')
+            # Create the new comment
+            comment = Comment.objects.create(post=post, author=request.user, text=text)
+            # Return a response with the comment and user info
+            return JsonResponse({
+                "user": request.user.username,  # Or any user attribute you'd like
+                "content": comment.text,
+            })
+        else:
+            return JsonResponse({"error": "No comment text provided"}, status=400)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 @login_required
 def search(request):

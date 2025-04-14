@@ -29,16 +29,24 @@ def account_view(request):
         'books': books,
     }
     return render(request, 'quillshelf/account.html', context)
+
+
 @login_required
 def publish_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            book = form.save()
+            book = form.save(commit=False)
+            book.author = request.user  # you set the author here
+            book.save()
             return redirect('account')
+        else:
+            print(form.errors)  # temporarily to debug
     else:
         form = BookForm()
+    
     return render(request, 'quillshelf/publish.html', {'form': form})
+
 
 
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
@@ -72,11 +73,27 @@ def delete_post(request, post_id):
 
 @login_required
 def like_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    like, created = Like.objects.get_or_create(post=post, user=request.user)
-    if not created:
-        like.delete()
-    return redirect('home')
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        post = Post.objects.get(pk=post_id)
+        user = request.user
+
+        liked = False
+        existing_like = Like.objects.filter(post=post, user=user).first()
+
+        if existing_like:
+            existing_like.delete()
+        else:
+            Like.objects.create(post=post, user=user)
+            liked = True
+
+        like_count = post.likes.count()
+
+        return JsonResponse({
+            'liked': liked,
+            'likes': like_count
+        })
+
+    return JsonResponse({'error': 'Invalid request'},status=400)
 
 @login_required
 def bookmark_post(request, post_id):

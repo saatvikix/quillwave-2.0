@@ -30,8 +30,8 @@
                 <a href="{% url 'home' %}"><img src="{% static 'images/navLogo.png' %}" alt=""></a>
             </div>
             <div id="navLinks">
-                <div class="navItems"><a href="{% url 'home' %}">Feed</a></div>
                 <div class="navItems"><a href="{% url 'about' %}">About</a></div>
+                <div class="navItems"><a href="{% url 'profile' %}">Profile</a></div>
                 
                 {% if user.is_authenticated %}
                     <div class="navItems"><a href="{% url 'logout' %}">Logout</a></div>
@@ -47,7 +47,7 @@
         <section class="heroSection">
             <h1>Contact Us</h1>
             <p>We're only one call away ;&#41</p>
-            <a href="#"><input type="text"></a>
+            
         </section>
         
         <!-- Contact Info -->

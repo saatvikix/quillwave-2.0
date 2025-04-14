@@ -20,12 +20,94 @@
     </div>
     {% endif %}
 
-    <div class="post-content">
+    <div class="post-content" id="postText">
         <p>{{ post.body|linebreaks }}</p>
+
+        <button id="speakBtn" style="margin-top: 15px; padding: 10px 15px; font-size: 1rem; cursor: pointer;">
+            🔊 Listen to Post
+        </button>
     </div>
 
     <div class="post-actions">
         <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
     </div>
 </main>
+<script>
+    const speakBtn = document.getElementById("speakBtn");
+    const postText = document.getElementById("postText").innerText.trim();
+    const synth = window.speechSynthesis;
+    let utterance;
+    let isPaused = false;
+    let isSpeaking = false;
+
+    // Create control buttons dynamically
+    const pauseBtn = document.createElement("button");
+    pauseBtn.textContent = "⏸ Pause";
+    pauseBtn.style.marginLeft = "10px";
+    pauseBtn.style.padding = "10px 15px";
+    pauseBtn.style.fontSize = "1rem";
+    pauseBtn.style.cursor = "pointer";
+
+    const resumeBtn = document.createElement("button");
+    resumeBtn.textContent = "▶ Resume";
+    resumeBtn.style.marginLeft = "10px";
+    resumeBtn.style.padding = "10px 15px";
+    resumeBtn.style.fontSize = "1rem";
+    resumeBtn.style.cursor = "pointer";
+
+    speakBtn.insertAdjacentElement('afterend', pauseBtn);
+    speakBtn.insertAdjacentElement('afterend', resumeBtn);
+
+    pauseBtn.style.display = "none";
+    resumeBtn.style.display = "none";
+
+    speakBtn.addEventListener("click", () => {
+        if (synth.speaking || synth.paused) {
+            synth.cancel(); // Stops everything
+            isSpeaking = false;
+            isPaused = false;
+            speakBtn.textContent = "🔊 Listen to Post";
+            pauseBtn.style.display = "none";
+            resumeBtn.style.display = "none";
+        } else {
+            if (postText !== "") {
+                utterance = new SpeechSynthesisUtterance(postText);
+                utterance.lang = "en-US";
+                utterance.rate = 1;
+
+                synth.speak(utterance);
+                isSpeaking = true;
+                speakBtn.textContent = "⏹ Stop";
+                pauseBtn.style.display = "inline-block";
+                resumeBtn.style.display = "none";
+
+                utterance.onend = () => {
+                    isSpeaking = false;
+                    speakBtn.textContent = "🔊 Listen to Post";
+                    pauseBtn.style.display = "none";
+                    resumeBtn.style.display = "none";
+                };
+            }
+        }
+    });
+
+    pauseBtn.addEventListener("click", () => {
+        if (synth.speaking && !synth.paused) {
+            synth.pause();
+            isPaused = true;
+            pauseBtn.style.display = "none";
+            resumeBtn.style.display = "inline-block";
+        }
+    });
+
+    resumeBtn.addEventListener("click", () => {
+        if (synth.paused) {
+            synth.resume();
+            isPaused = false;
+            pauseBtn.style.display = "inline-block";
+            resumeBtn.style.display = "none";
+        }
+    });
+</script>
+
 {% endblock %}

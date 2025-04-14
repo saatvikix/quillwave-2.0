@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
     path('users/', include('users.urls')),
+    path('Quillshelf/', include('Quillshelf.urls')),
 ]
 
 if settings.DEBUG:

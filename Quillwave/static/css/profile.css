@@ -26,60 +26,64 @@ hr{
     width: 50%;
 }
 
-div.masterContainer {
-    display: flex;
-    align-items: center; 
-    min-height: 60px;
-
-}
-header{
-   
-    position:sticky;
+/* === HEADER === */
+header {
+    position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 10;
     background-color: #0e1935;
-    border-bottom:0.5px solid #fffffd;
+    border-bottom: 0.5px solid #fffffd;
 }
-header>div.masterContainer{
+
+/* Master container within header */
+header > .masterContainer {
     width: 90%;
     margin: auto;
-    height: 80px;
-   
-
-}
-div#navLinks {
-
     display: flex;
-    position: absolute;
-    top: 10;
-    right: 0;
-
-    align-items: center; /* Ensure vertical alignment */
-    gap: 15px; /* Space between nav items */
+    justify-content: space-between; /* Ensures logo on left, nav on right */
+    align-items: center;
+    height: 80px;
 }
 
-div.navItems {
-  
-    
-    /* border: 2px solid red; */
-    padding: 10px 15px; /* Add padding */
+/* Logo in the left section */
+header .masterContainer img {
+    height: 68px;
+}
+
+/* Nav Links container */
+#navLinks {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Each nav item */
+.navItems {
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-header a{
+/* Text styling for nav links */
+header a {
     color: #fffffd;
     text-decoration: none;
+    font-family: 'Mono';
+    font-size: 14px;
 }
-header a:hover{
 
+header a:hover {
     color: #f4c542;
     text-decoration: underline;
 }
-header img{
-    height: 68px;
+
+/* Optional: emphasize the username visually */
+#user a {
+    font-weight: bold;
+    color: #f4c542;
 }
+
 
 #coverPhoto{
     margin: auto;
@@ -90,6 +94,7 @@ header img{
     background-position: 50% 30%;
     background-size: cover;
     background-repeat: no-repeat;
+    
     
 }
 

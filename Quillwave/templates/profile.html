@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=\, initial-scale=1.0">
     <title>Quillwave - User Profile</title>
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
 </head>
 
 <body>
@@ -23,7 +24,7 @@
                 {% endif %}
 
                 {% block nav_items %}
-                <div class="navItems"><a href="{% url 'home' %}">Home</a></div>
+                <div class="navItems"><a href="{% url 'about' %}">About</a></div>
                 <div class="navItems"><a href="{% url 'contact' %}">Contact</a></div>
                 {% endblock %}
 
